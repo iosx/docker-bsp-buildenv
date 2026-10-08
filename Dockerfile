@@ -1,7 +1,20 @@
 FROM ubuntu:20.04
 
 # Suppress time zone questions during build
-ENV TZ=Europe/Copenhagen
+ENV TZ=Asia/Shanghai
+
+RUN printf '%s\n' \
+  '# USTC Ubuntu mirrors' \
+  '# 中国科学技术大学开源软件镜像站' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu-ports/ focal main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu-ports/ focal-updates main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu-ports/ focal-backports main restricted universe multiverse' \
+  'deb http://mirrors.ustc.edu.cn/ubuntu-ports/ focal-security main restricted universe multiverse' \
+  > /etc/apt/sources.list
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
   && echo $TZ > /etc/timezone \
@@ -35,6 +48,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     help2man \
     iproute2 \
     iputils-ping \
+    jq \
     libacl1-dev \
     libelf-dev \
     libglade2-0 \
