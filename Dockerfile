@@ -117,13 +117,18 @@ COPY ./mchp-install-pkg /usr/local/bin
 # mchp building environment
 COPY ./SimpleGridClient /usr/local/bin
 
-RUN git clone https://github.com/matthiasmiller/javascriptlint.git /tmp/jsl \
-  && cd /tmp/jsl \
-  && git checkout 5a245b453d68228878d6c283e12ef35327c45279 \
-  && cd ./src \
-  && make -f Makefile.ref \
-  && cp ./Linux_All_DBG.OBJ/jsl /usr/local/bin/ \
-  && rm -rf /tmp/jsl
+RUN arch="$(dpkg --print-architecture)"; \
+    if [ "$arch" = "amd64" ] || [ "$arch" = "armhf" ]; then \
+      git clone https://github.com/matthiasmiller/javascriptlint.git /tmp/jsl && \
+      cd /tmp/jsl && \
+      git checkout 5a245b453d68228878d6c283e12ef35327c45279 && \
+      cd ./src && \
+      make -f Makefile.ref && \
+      cp ./Linux_All_DBG.OBJ/jsl /usr/local/bin/ && \
+      rm -rf /tmp/jsl; \
+    else \
+      echo "Skipping javascriptlint build on unsupported architecture: $arch"; \
+    fi
 
 # Make working in the shell a bit nicer
 COPY ./alias.sh /nvm/.bashrc
