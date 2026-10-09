@@ -82,7 +82,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
   && locale-gen en_US.UTF-8 \
   && update-locale LANG=en_US.UTF-8 LANGUAGE=en \
   && git config --system user.email "br@example.com" && git config --system user.name "Build Root" \
-  && gem install nokogiri asciidoctor \
+  && gem install nokogiri -v 1.15.7 \
+  && gem install asciidoctor \
   && gem install minitar -v 0.12.1 \
   && gem install slop optimist json_schemer \
   && update-alternatives --install /usr/bin/python python /usr/bin/python3 100 \
